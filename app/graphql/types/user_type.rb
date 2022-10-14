@@ -6,7 +6,6 @@ module Types
     field :name, String
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :name, Types::StringType
     field :transactions, [Types::TransactionType]
   end
 end
