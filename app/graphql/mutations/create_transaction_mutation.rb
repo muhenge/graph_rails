@@ -16,49 +16,19 @@ module Mutations
     argument :amount, Integer, required: false do
       description "Amount"
     end
-    argument :user_id, Integer, required: true do
-      description "User ID"
-    end
 
-    field :update , Types::TransactionType, null: false do
-      description "The transaction that was updated"
-    end
-
-    argument :id, ID, required: true do
-      description "ID of the transaction"
-    end
-
-    # def resolve(id:)
-    #   transaction = Transaction.find(id)
-    #   if transaction.update
-    #     {
-    #       transaction: transaction,
-    #       errors: []
-    #     }
-    #   else
-    #     {
-    #       transaction: nil,
-    #       errors: transaction.errors.full_messages
-    #     }
-    #   end
-    # end
+    type Types::TransactionType
 
 
-    def resolve(debit:, credit:, user_id:)
-      amount = debit - credit
-      user = User.find(user_id)
-      transaction = user.transaction.new(debit: debit, credit: credit, amount: amount, user_id: user_id)
-      if transaction.save
-        {
-          transaction: transaction,
-          errors: []
-        }
-      else
-        {
-          transaction: nil,
-          errors: transaction.errors.full_messages
-        }
-      end
+    def resolve(debit: nil, credit: nil, amount: nil)
+      Transaction.create!(
+        debit: debit,
+        credit: credit,
+        amount: amount,
+        user: context[:current_user]
+      )
+    rescue ActiveRecord::RecordInvalid => error
+      GraphQL::ExecutionError.new("Invalid input: #{error.record.errors.full_messages.join(', ')}")
     end
   end
 end
