@@ -17,6 +17,10 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :size, Integer, null: false do
+      description "Returns the number of users"
+    end
+
     def user(id:)
       User.find(id)
     end
@@ -27,6 +31,10 @@ module Types
 
     def transactions
       Transaction.all
+    end
+
+    def size
+      User.count
     end
   end
 end
