@@ -8,8 +8,6 @@ module Types
     field :amount, Integer
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    # field :user_id, Integer, null: false
-    # field :user, Types::UserType
-    field :transaction_by, UserType, null: true, method: :user
+    field :created_by, UserType, null: true, method: :user
   end
 end

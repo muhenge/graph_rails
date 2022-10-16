@@ -21,10 +21,12 @@ module Mutations
 
 
     def resolve(debit: nil, credit: nil, amount: nil)
+      current_balance = Transaction.last.amount || 0
+      current_balance = current_balance + debit - credit
       Transaction.create!(
         debit: debit,
         credit: credit,
-        amount: amount,
+        amount: current_balance,
         user: context[:current_user]
       )
     rescue ActiveRecord::RecordInvalid => error
