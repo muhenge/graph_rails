@@ -28,6 +28,9 @@ module Mutations
         email: auth_provider&.[](:credentials)&.[](:email),
         password: auth_provider&.[](:credentials)&.[](:password)
       )
+
+    rescue ActiveRecord::RecordInvalid => error
+      GraphQL::ExecutionError.new("Invalid input: #{error.record.errors.full_messages.join(', ')}")
     end
   end
 end
