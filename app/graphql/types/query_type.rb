@@ -20,16 +20,12 @@ module Types
       description "Returns the number of users"
     end
 
-    field :transation, Types::TransactionType, null: false do
+    field :transaction , Types::TransactionType, null: false do
       description "Returns a transaction by ID"
       argument :id, ID, required: true
     end
 
-    field :latest_amount, Integer, null: false do
-      description "Returns the latest amount"
-    end
-
-    def transaction(id)
+    def transaction(id:)
       Transaction.find(id)
     end
 
