@@ -5,7 +5,7 @@ export const GET_ALL_USERS = gql`
       users {
         id
         name
-        
+
         createdAt
         transactions {
           id
