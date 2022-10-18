@@ -88,6 +88,10 @@ GEM
       thor (>= 0.14.0, < 2)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    graphdoc-ruby (0.1.0)
+      activesupport (>= 4.2.0)
+      bundler
+      rack
     graphql (2.0.14)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
@@ -177,6 +181,7 @@ DEPENDENCIES
   bootsnap
   debug
   figaro
+  graphdoc-ruby
   graphiql-rails!
   graphql (~> 2.0, >= 2.0.14)
   pg (~> 1.1)

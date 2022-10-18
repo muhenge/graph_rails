@@ -1,24 +1,152 @@
-# README
+# Documentation
+> This doc is a graphql samples
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## How to run
 
-Things you may want to cover:
+```bash
+$ git clone https://github.com/muhenge/graph_rails.git
+$ cd graph_rails
+$ bundle install
+$ bundle exec figaro install
+```
+configure your database in `config/database.yml` and `config/application.yml`
 
-* Ruby version
+```bash
+$ rake db:migrate
+$ rails s
+```
+go to `http://localhost:3000/graphiql` to run your queries
 
-* System dependencies
+## How to run
 
-* Configuration
+> Display all users
 
-* Database creation
+```graphql
+query {
+  users {
+    id
+    name
+    createdAt
+    transactions {
+      id
+      amount
+      debit
+      credit
+      createdAt
+    }
+  }
+}
+```
 
-* Database initialization
+> User by ID
 
-* How to run the test suite
+```graphql
+query {
+  user(id: 1) {
+    id
+    name
 
-* Services (job queues, cache servers, search engines, etc.)
+    transactions {
+      id
+      amount
+      debit
+      credit
+      createdAt
+    }
+  }
+```
 
-* Deployment instructions
+> Create user mutation
 
-* ...
+```graphql
+
+ mutation {
+   createUserMutation(
+     input: {
+       name:"test"
+       authProvider: {
+         credentials:{
+           email:"test@g.com"
+           password: "123456"
+         }
+       }
+     }
+   ) {
+     id
+     email
+     name
+     createdAt
+   }
+ }
+```
+
+> Login User mutation
+
+
+```graphql
+ mutation {
+   signInMutation(
+     input: {
+       credentials:{
+         email: "afff@example.com"
+        password:"123456"
+       }
+     }
+   ) {
+     user{
+       id
+      email
+       createdAt
+       transactions {
+         id
+         amount
+       }
+     }
+     token
+  }
+ }
+
+```
+
+---
+
+
+
+###### Transactions
+
+> Create transactions
+
+
+
+```graphql
+mutation {
+  createTransactionMutation(input:{
+    credit: 370000
+    debit: 0
+  }) {
+		id
+    amount
+    createdAt
+    createdBy {
+      name
+    }
+  }
+}
+```
+
+> all Transactions
+
+
+```graphql
+{
+  transactions {
+    id
+    amount
+    createdAt
+    createdBy {
+      id
+      name
+    }
+  }
+}
+```
